@@ -1,0 +1,118 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       polyBoundaryMesh;
+    location    "constant/polyMesh";
+    object      boundary;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+14
+(
+    front_top
+    {
+        type            wedge;
+        inGroups        List<word> 1(wedge);
+        nFaces          7500;
+        startFace       27670;
+    }
+    front_middle
+    {
+        type            wedge;
+        inGroups        List<word> 1(wedge);
+        nFaces          3250;
+        startFace       35170;
+    }
+    front_bottom
+    {
+        type            wedge;
+        inGroups        List<word> 1(wedge);
+        nFaces          3250;
+        startFace       38420;
+    }
+    back_top
+    {
+        type            wedge;
+        inGroups        List<word> 1(wedge);
+        nFaces          7500;
+        startFace       41670;
+    }
+    back_middle
+    {
+        type            wedge;
+        inGroups        List<word> 1(wedge);
+        nFaces          3250;
+        startFace       49170;
+    }
+    back_bottom
+    {
+        type            wedge;
+        inGroups        List<word> 1(wedge);
+        nFaces          3250;
+        startFace       52420;
+    }
+    axis_top
+    {
+        type            symmetryPlane;
+        inGroups        List<word> 1(symmetryPlane);
+        nFaces          0;
+        startFace       55670;
+    }
+    axis_middle
+    {
+        type            symmetryPlane;
+        inGroups        List<word> 1(symmetryPlane);
+        nFaces          0;
+        startFace       55670;
+    }
+    axis_bottom
+    {
+        type            symmetryPlane;
+        inGroups        List<word> 1(symmetryPlane);
+        nFaces          0;
+        startFace       55670;
+    }
+    wall_top
+    {
+        type            wall;
+        inGroups        List<word> 1(wall);
+        nFaces          150;
+        startFace       55670;
+    }
+    wall_middle
+    {
+        type            wall;
+        inGroups        List<word> 1(wall);
+        nFaces          65;
+        startFace       55820;
+    }
+    wall_bottom
+    {
+        type            wall;
+        inGroups        List<word> 1(wall);
+        nFaces          65;
+        startFace       55885;
+    }
+    inlet
+    {
+        type            patch;
+        nFaces          50;
+        startFace       55950;
+    }
+    outlet
+    {
+        type            patch;
+        nFaces          50;
+        startFace       56000;
+    }
+)
+
+// ************************************************************************* //

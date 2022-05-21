@@ -1,0 +1,175 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0.0003";
+    object      wallHeatFlux;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 0 -3 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    front_top
+    {
+        type            wedge;
+    }
+    front_middle
+    {
+        type            wedge;
+    }
+    front_bottom
+    {
+        type            wedge;
+    }
+    back_top
+    {
+        type            wedge;
+    }
+    back_middle
+    {
+        type            wedge;
+    }
+    back_bottom
+    {
+        type            wedge;
+    }
+    axis_top
+    {
+        type            symmetryPlane;
+    }
+    axis_middle
+    {
+        type            symmetryPlane;
+    }
+    axis_bottom
+    {
+        type            symmetryPlane;
+    }
+    wall_top
+    {
+        type            calculated;
+        value           nonuniform List<scalar> 
+24
+(
+47280.05979
+42093.23117
+39140.9116
+36908.99684
+35208.27005
+33924.89559
+32400.48691
+30670.40935
+29114.01974
+27909.13946
+27281.51062
+26968.45253
+26649.17375
+26185.72003
+25694.76939
+25238.2166
+24812.59454
+24412.48264
+24034.09078
+23674.58339
+23331.67453
+23002.84653
+22686.46661
+22381.05812
+)
+;
+    }
+    wall_middle
+    {
+        type            calculated;
+        value           nonuniform 0();
+    }
+    wall_bottom
+    {
+        type            calculated;
+        value           nonuniform 0();
+    }
+    inlet
+    {
+        type            calculated;
+        value           nonuniform List<scalar> 
+50
+(
+-21.89813989
+-22.49963401
+-23.81950046
+-25.85111104
+-28.64807618
+-32.29820587
+-36.92235485
+-42.67666289
+-49.75655249
+-58.40218851
+-68.90537633
+-81.61797372
+-96.96194691
+-115.4412419
+-137.6556751
+-164.3170758
+-196.2679399
+-234.5028192
+-280.1927558
+-334.7133858
+-399.6766891
+-476.9668901
+-568.7810018
+-677.6742956
+-806.6108781
+-959.0199383
+-1138.858175
+-1350.67941
+-1599.710825
+-1891.934677
+-2234.177233
+-2634.211498
+-3100.866519
+-3644.143849
+-4275.351184
+-5007.235985
+-5854.115485
+-6832.038264
+-7958.964858
+-9254.958782
+-10742.37358
+-12446.06301
+-14393.53267
+-16615.20675
+-19144.73236
+-22019.23726
+-25279.43583
+-28970.00133
+-33139.8825
+-37842.55997
+)
+;
+    }
+    outlet
+    {
+        type            calculated;
+        value           nonuniform 0();
+    }
+    procBoundary11to10
+    {
+        type            processor;
+        value           uniform 0;
+    }
+}
+
+
+// ************************************************************************* //

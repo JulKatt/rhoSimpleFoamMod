@@ -1,0 +1,58 @@
+# vtk DataFile Version 2.0
+axis_bottom
+BINARY
+DATASET POLYDATA
+POINTS 0 float
+
+POLYGONS 0 0
+
+CELL_DATA 0
+FIELD attributes 12
+patchID 1 0 float
+
+kappa 1 0 float
+
+rho 1 0 float
+
+wallHeatFlux 1 0 float
+
+thermo:mu 1 0 float
+
+p 1 0 float
+
+T 1 0 float
+
+thermo:alpha 1 0 float
+
+generalizedNewtonian:nu 1 0 float
+
+U 3 0 float
+
+grad(generalizedNewtonian:nu) 3 0 float
+
+grad(U) 9 0 float
+
+POINT_DATA  0
+FIELD attributes 11
+kappa 1 0 float
+
+rho 1 0 float
+
+wallHeatFlux 1 0 float
+
+thermo:mu 1 0 float
+
+p 1 0 float
+
+T 1 0 float
+
+thermo:alpha 1 0 float
+
+generalizedNewtonian:nu 1 0 float
+
+U 3 0 float
+
+grad(generalizedNewtonian:nu) 3 0 float
+
+grad(U) 9 0 float
+

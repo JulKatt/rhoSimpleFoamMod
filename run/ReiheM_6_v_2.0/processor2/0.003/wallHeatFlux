@@ -1,0 +1,121 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0.003";
+    object      wallHeatFlux;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 0 -3 0 0 0 0];
+
+internalField   uniform 0;
+
+boundaryField
+{
+    front_top
+    {
+        type            wedge;
+    }
+    front_middle
+    {
+        type            wedge;
+    }
+    front_bottom
+    {
+        type            wedge;
+    }
+    back_top
+    {
+        type            wedge;
+    }
+    back_middle
+    {
+        type            wedge;
+    }
+    back_bottom
+    {
+        type            wedge;
+    }
+    axis_top
+    {
+        type            symmetryPlane;
+    }
+    axis_middle
+    {
+        type            symmetryPlane;
+    }
+    axis_bottom
+    {
+        type            symmetryPlane;
+    }
+    wall_top
+    {
+        type            calculated;
+        value           nonuniform 0();
+    }
+    wall_middle
+    {
+        type            calculated;
+        value           nonuniform List<scalar> 5(84958.00298 90258.81763 98075.66784 111453.5671 160869.4007);
+    }
+    wall_bottom
+    {
+        type            calculated;
+        value           nonuniform List<scalar> 
+19
+(
+156433.2737
+131916.5691
+122886.071
+117902.1145
+114682.834
+112346.0857
+110534.555
+109062.4483
+107821.6857
+106748.6682
+105799.9686
+104946.8351
+104168.0759
+103448.3138
+102775.7424
+102141.3327
+101537.985
+100960.1184
+100403.2926
+)
+;
+    }
+    inlet
+    {
+        type            calculated;
+        value           nonuniform 0();
+    }
+    outlet
+    {
+        type            calculated;
+        value           nonuniform 0();
+    }
+    procBoundary2to1
+    {
+        type            processor;
+        value           uniform 0;
+    }
+    procBoundary2to3
+    {
+        type            processor;
+        value           uniform 0;
+    }
+}
+
+
+// ************************************************************************* //

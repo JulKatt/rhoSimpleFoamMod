@@ -1,0 +1,30 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       IOobject;
+    location    "0";
+    object      initialConditions;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+v_Filament	2.0;		// Zuführungsgeschwindigkeit Filament [mm/s]
+T_Duese		240;		// Düsentemperatur [°C]
+T_ein_Filament	25;		// Filament bzw. Raumtemperatur [°C]
+
+
+//_____________________________Berechnungen____________________________________________
+
+Filamentgeschw	#calc "-($v_Filament/1000)";			//Umrechnung in m/s und negativ aufgrund Ausrichtung des mesh
+T_Nozzle	#calc "$T_Duese+273.15";			//Umrechnung in Kelvin
+T_Filament	#calc "$T_ein_Filament+273.15";			//Umrechnung in Kelvin
+T_initial	#calc "($T_Nozzle+$T_Filament)/2.0";		//Mittelwert von Düsen- und Filamenttemperatur als Startfeld für die Temperatur
+
+// ************************************************************************* //

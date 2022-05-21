@@ -1,0 +1,71 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      thermophysicalProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+//Bitte beiliegendes Excel-File beachten. Hier können die Tait-Parameter und v.a. auch das KarrenbergWLF-Modell modelliert werden.
+//Es ist darauf zu achten die Karrenberg-Koeffizienten so zu wählen, dass ein glatter Kurvenverlauf bei sinnvollen Nullviskositäten erreicht wird. 
+
+thermoType						//Untenstehende Erklärungen basierend auf https://cfd.direct/openfoam/user-guide/v7-thermophysical/
+{
+    type            heRhoThermo;			//for solvers that construct rhoThermo, rhoReactionThermo and multiphaseMixtureThermo
+    mixture         pureMixture;			//wenn keine Reaktion --> pure mixture --> thermophysical model coefficients sind in untenstehendem sub-dictionary mixture
+    transport       KarrenbergWLF;			//modifiziertes WLF-Modell mit Ansatz von Gregor Karrenberg und eigener Modifikation
+    thermo          hTait;				//Enthält Cp(T) und h(Cp(T))
+    equationOfState Tait;				//Tait Zustandsgleichung für amorphe Polymere
+    specie          specie;
+    energy          sensibleEnthalpy;			//Auswahl der Energieform, welche in der Lösung verwendet werden soll, entweder innere Energie oder Enthalpie und/oder Bildungsenthalpie
+}							//absolut = mit Bildungsenthalpie, sensible = ohne | e.g.  sensibleEnthalpy, sensibleInternalEnergy and absoluteEnthalpy
+							//Verwendung von sensibleEnthalpy ist für diesen Case elementar, da Modellfunktionen darauf ausgerichtet
+
+mixture							//da allgemeingültig für Mischung, ansonsten wäre hier für jede Komponente separater Abschnitt, bspw. O2  |  Beispiele siehe Website
+{
+    specie						//bspw. Molzahl "nMoles" und Molekulargewicht "molWeight" [g/mol]
+    {
+	nMoles	    1;					//irrelevant
+        molWeight   1;					//Wert notwendig aber irrelevant für Rechnung da keine Mischung
+    }
+    thermodynamics					//enthält die Koeffizienten für das gewählte thermodynamische Modell
+    {
+        Cp          0;					//Cp(T) wird durch Tabelle vorgegeben, muss dennoch hier definiert sein, da als Eingangsparameter deklariert
+        Hf          0;					//Heat of Fusion, irrelevant da keine Mischung
+    }
+    transport						//enthält die Koeffizienten für das gewählte Transportmodell
+    {//___________PS486N
+        mu0         6115.41096;				//Nullviskosität		[Pas]
+        Tr          493.15;				//Referenztemperatur 	Tref 	[K]
+        C1          9.05296;				//WLF-Koeffizient 1	A1
+        C2          185.17494 ;				//WLF-Koeffizient 2	A2
+        Tm          374.15;				//Schmelztemperatur Karrenberg	[K]
+        TS          0.8;				//Karrenberg Koeffizient 1
+        MS          1.0;				//Karrenberg Koeffizient 2
+    }
+    equationOfState					//enthält die Koeffizienten für das gewählte thermodynamische Modell
+    {
+        b5          362.15;				//
+        b6          1e-7;				//
+        b1m         0.0009978;				//
+        b2m         7.5078e-7;				//
+        b3m         6.9934e8;				//
+        b4m         0.0029;				//
+        b1s         0.0009978;				//
+        b2s         3.3782e-7;				//
+        b3s         9.9809e8;				//
+        b4s         0.00012152;				//
+    }
+}
+
+
+// ************************************************************************* //

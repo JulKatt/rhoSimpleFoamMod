@@ -1,0 +1,31 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      turbulenceProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+simulationType  laminar;
+
+laminar
+{
+    laminarModel generalizedNewtonian;
+
+    viscosityModel CrossPowerLaw;
+
+    nuInf      0;		// 0
+    n          0.76209;		// in der Modellfunktion ist im Nenner ^(n) anstelle von ^(1-n) wie es in vielen Büchern und Programmen definiert ist --> beachten!!!
+    tauStar    34.9386;	// (Dichte= 1050 kg/m^3 bei tau=35883,744) Achtung: hier wird mit der kinematischen Viskosität gerechnet, d.h. tauStar aus Cross-WLF Parametern muss durch Dichte geteilt werden
+}
+
+// ************************************************************************* //

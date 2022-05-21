@@ -1,0 +1,19 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # Run from this directory
+
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+application=$(getApplication)
+
+runApplication blockMesh
+
+decomposePar
+
+#mpirun -np 8 rhoSimpleFoamMod -parallel > log # rausgenommen für Bash-Bearbeitung Scheid
+mpirun -np 12 rhoSimpleFoamMod -parallel > log & tail -f log # rausgenommen für Bash-Bearbeitung Scheid
+ 
+# runApplication $application   # rausgenommen für Bash-Bearbeitung
+
+echo "Erledigt!"
+#------------------------------------------------------------------------------

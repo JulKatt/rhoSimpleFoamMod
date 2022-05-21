@@ -1,0 +1,93 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      p;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -1 -2 0 0 0 0];		//Einheit Pascal
+
+internalField   uniform 1e5;
+
+boundaryField
+{
+    inlet
+    {
+        type            zeroGradient;
+    }
+
+    outlet
+    {
+        type            fixedValue;
+        value           uniform 1e5;		//atmosphärischer Druck am Düsenaustritt
+    }
+
+    wall_top
+    {
+        type            fixedFluxPressure;	//entspricht zeroGradient
+        value           uniform 0;
+    }
+
+    wall_middle
+    {
+        type            fixedFluxPressure;	//entspricht zeroGradient
+        value           uniform 0;
+    }
+
+    wall_bottom
+    {
+        type            fixedFluxPressure;	//entspricht zeroGradient
+        value           uniform 0;
+    }
+    front_top
+    {
+        type            wedge;
+    }
+
+    front_middle
+    {
+        type            wedge;
+    }
+
+    front_bottom
+    {
+        type            wedge;
+    }
+
+    back_top
+    {
+        type            wedge;
+    }
+
+    back_middle
+    {
+        type            wedge;
+    }
+    back_bottom
+    {
+        type            wedge;
+    }
+    axis_top
+    {
+        type            symmetryPlane;
+    }
+    axis_middle
+    {
+        type            symmetryPlane;
+    }
+    axis_bottom
+    {
+        type            symmetryPlane;
+    }
+}
+
+// ************************************************************************* //

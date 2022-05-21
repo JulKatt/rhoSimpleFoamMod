@@ -1,0 +1,129 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       polyBoundaryMesh;
+    location    "constant/polyMesh";
+    object      boundary;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+15
+(
+    front_top
+    {
+        type            wedge;
+        inGroups        List<word> 1(wedge);
+        nFaces          1166;
+        startFace       2258;
+    }
+    front_middle
+    {
+        type            wedge;
+        inGroups        List<word> 1(wedge);
+        nFaces          0;
+        startFace       3424;
+    }
+    front_bottom
+    {
+        type            wedge;
+        inGroups        List<word> 1(wedge);
+        nFaces          0;
+        startFace       3424;
+    }
+    back_top
+    {
+        type            wedge;
+        inGroups        List<word> 1(wedge);
+        nFaces          1166;
+        startFace       3424;
+    }
+    back_middle
+    {
+        type            wedge;
+        inGroups        List<word> 1(wedge);
+        nFaces          0;
+        startFace       4590;
+    }
+    back_bottom
+    {
+        type            wedge;
+        inGroups        List<word> 1(wedge);
+        nFaces          0;
+        startFace       4590;
+    }
+    axis_top
+    {
+        type            symmetryPlane;
+        inGroups        List<word> 1(symmetryPlane);
+        nFaces          0;
+        startFace       4590;
+    }
+    axis_middle
+    {
+        type            symmetryPlane;
+        inGroups        List<word> 1(symmetryPlane);
+        nFaces          0;
+        startFace       4590;
+    }
+    axis_bottom
+    {
+        type            symmetryPlane;
+        inGroups        List<word> 1(symmetryPlane);
+        nFaces          0;
+        startFace       4590;
+    }
+    wall_top
+    {
+        type            wall;
+        inGroups        List<word> 1(wall);
+        nFaces          24;
+        startFace       4590;
+    }
+    wall_middle
+    {
+        type            wall;
+        inGroups        List<word> 1(wall);
+        nFaces          0;
+        startFace       4614;
+    }
+    wall_bottom
+    {
+        type            wall;
+        inGroups        List<word> 1(wall);
+        nFaces          0;
+        startFace       4614;
+    }
+    inlet
+    {
+        type            patch;
+        nFaces          50;
+        startFace       4614;
+    }
+    outlet
+    {
+        type            patch;
+        nFaces          0;
+        startFace       4664;
+    }
+    procBoundary11to10
+    {
+        type            processor;
+        inGroups        List<word> 1(processor);
+        nFaces          51;
+        startFace       4664;
+        matchTolerance  0.0001;
+        transform       unknown;
+        myProcNo        11;
+        neighbProcNo    10;
+    }
+)
+
+// ************************************************************************* //

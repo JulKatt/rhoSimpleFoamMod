@@ -1,0 +1,224 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  7
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+convertToMeters 0.001;    //Einheit mm
+
+//..........................................................Geometrische Parameter
+
+cx          	0.0;	//x-Koordinate des Ursprungs
+cy          	0.0;	//y-Koordinate des Ursprungs
+cz          	0.0;	//z-Koordinate des Ursprungs
+
+height_nozzle	12.5;	//Gesamtlänge der Düse, Tabelle bzw. Zeichnung entnehmen
+
+r1          	0.825;	//Filamentradius, Messungen ergaben Durchmesser von 1.65 mm --> Radius 0.825 mm
+
+nozzleangle 	30.00;	//halber Düsenwinkel des konischen Teils --> 60/2
+
+r2          	0.195;	//Radius Düsenöffnung
+
+height3     	0.65;	//Länge des Auslaufs der Düse
+
+//...........................................................Netzparameter
+
+n_t_z       150;	//600	Netzelemente oberer Zylinder	z-Richtung
+n_m_z       65;		//90	Netzelemente konischer Teil	z-Richtung
+n_b_z       65;		//150	Netzelemente Düsenauslauf	z-Richtung
+
+n_x         50;		//100	Netzelemte gesamt		x-Richtung
+grad_x	    0.4;		//1	SimpleGrading-Faktor gesamt	x-Richtung
+grad_z	    0.1;	//0.2	SimpleGrading-Faktor Zylinder	z_Richtung
+
+//...........................................................Berechnungen
+
+wedgeangle  2.0000000000000;	//Winkel des wedge-Stückes
+
+radAngle	#calc "degToRad($wedgeangle)";		//Umrechnung von Grad- in Bogenmaß
+radNozzleAngle	#calc "degToRad($nozzleangle)";		//Umrechnung von Grad- in Bogenmaß
+
+height2     #calc "(($r1-$r2)/tan($radNozzleAngle))";		//Länge des konischen Teils
+height1     #calc "$height_nozzle-$height2-$height3";		//Länge des zylindrischen Teils
+
+h1          #calc "$cz-$height1";                       //Höhe zylindrischer Teil
+h2          #calc "$cz-($height1+$height2)";	        //Höhe bis Ende konischer Teil
+h3          #calc "$cz-($height1+$height2+$height3)";	//Höhe bis Auslauf
+
+vx          #calc "($r1*cos($radAngle))";
+vy          #calc "($r1*sin($radAngle))";
+nvy         #calc "-$vy";
+vx2         #calc "($r2*cos($radAngle))";
+vy2         #calc "($r2*sin($radAngle))";
+nvy2        #calc "-$vy2";
+
+//...........................................................Deklaration der Eckpunkte
+//im Terminal mittels "paraFoam -block" (nach Ausführung blockMesh) können die Positionen der Punkte und der Aufbau des mesh am besten nachvollzogen werden
+vertices
+(
+
+    ($cx $cy $cz)	//0
+    ($vx $vy $cz)	//1
+    ($vx $nvy $cz)      //2
+    
+    ($cx $cy $h1)	//3
+    ($vx $vy $h1)	//4
+    ($vx $nvy $h1)	//5
+    
+    ($cx $cy $h2)       //6
+    ($vx2 $vy2 $h2)     //7
+    ($vx2 $nvy2 $h2)    //8
+    
+    ($cx $cy $h3)       //9
+    ($vx2 $vy2 $h3)     //10
+    ($vx2 $nvy2 $h3)    //11
+        
+);
+
+//...........................................................Definition der Blöcke
+
+blocks
+(
+    hex (0 1 2 0 3 4 5 3)   ($n_x 1 $n_t_z) simpleGrading ($grad_x 1 $grad_z)	//top
+    hex (3 4 5 3 6 7 8 6)   ($n_x 1 $n_m_z) simpleGrading ($grad_x 1 1)		//middle
+    hex (6 7 8 6 9 10 11 9) ($n_x 1 $n_b_z) simpleGrading ($grad_x 1 1)		//bottom
+);
+
+//...........................................................mittels der arc werden die Blöcke zu Zylindern
+edges
+(
+);
+//...........................................................Definition der Grenzflächen
+
+boundary
+(
+    front_top
+    {
+        type wedge;
+        faces
+        (
+		(0 2 5 3)
+        );
+    }
+    front_middle
+    {
+        type wedge;
+        faces
+        (
+		(3 5 8 6)
+        );
+    }
+    front_bottom
+    {
+        type wedge;
+        faces
+        (
+		(6 8 11 9)
+        );
+    }
+    back_top
+    {
+        type wedge;
+        faces
+        (
+		(0 3 4 1)
+        );
+    }
+    back_middle
+    {
+        type wedge;
+        faces
+        (
+		(3 6 7 4)
+        );
+    }
+    back_bottom
+    {
+        type wedge;
+        faces
+        (
+		(6 9 10 7)
+        );
+    }
+    axis_top
+    {
+        type symmetryPlane;
+        faces
+        (
+		(0 3 3 0)
+        );
+    }
+    axis_middle
+    {
+        type symmetryPlane;
+        faces
+        (
+		(3 6 6 3)
+        );
+    }
+    axis_bottom
+    {
+        type symmetryPlane;
+        faces
+        (
+		(6 9 9 6)
+        );
+    }
+    wall_top
+    {
+        type wall;
+        faces
+        (
+		(1 4 5 2)
+        );
+    }
+    wall_middle
+    {
+        type wall;
+        faces
+        (
+		(4 7 8 5)
+        );
+    }
+    wall_bottom
+    {
+        type wall;
+        faces
+        (
+		(7 10 11 8)
+        );
+    }
+    inlet
+    {
+        type patch;
+        faces
+        (
+		(0 1 2 0)
+        );
+    }
+    outlet
+    {
+        type patch;
+        faces
+        (
+		(9 10 11 9)
+        );
+    }    
+);
+
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //
